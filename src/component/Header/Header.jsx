@@ -18,20 +18,28 @@ function Header() {
   }, [user, navigate]);
 
   return (
-    <header className="sticky top-0 w-full bg-blue-500 shadow-md py-3 px-6 flex items-center justify-between">
-      <h1 className="text-white text-lg font-semibold">Financly</h1>
+    <header className="sticky top-0 w-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 shadow-lg py-4 px-6 flex items-center justify-between backdrop-blur-lg bg-opacity-80 z-50">
+      <h1 className="text-white text-2xl font-bold tracking-wide">Financly</h1>
+
       {user && (
-        <button
-          onClick={logout}
-          className="flex items-center text-white text-base font-medium hover:text-gray-200 transition duration-300 cursor-pointer"
-        >
-          <img
-            src={user.photoURL || userSvg}
-            alt="User"
-            className="w-8 h-8 rounded-full mr-3"
-          />
-          Logout
-        </button>
+        <div className="flex items-center space-x-4">
+          {/* User Profile Icon */}
+          <div className="relative w-10 h-10 rounded-full border-2 border-white shadow-md overflow-hidden">
+            <img
+              src={user.photoURL || userSvg}
+              alt="User"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Logout Button */}
+          <button
+            onClick={logout}
+            className="px-4 py-2 text-green font-bold rounded-full bg-indigo-400 bg-opacity-20 hover:bg-opacity-30 border border-white transition duration-300 shadow-md backdrop-blur-lg cursor-pointer"
+          >
+            Logout
+          </button>
+        </div>
       )}
     </header>
   );

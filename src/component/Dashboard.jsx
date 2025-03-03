@@ -24,7 +24,6 @@ const Dashboard = () => {
   const [currentBalance, setCurrentBalance] = useState(0);
   const [income, setIncome] = useState(0);
   const [expenses, setExpenses] = useState(0);
-  // eslint-disable-next-line no-unused-vars
   const navigate = useNavigate();
 
   const processChartData = () => {
@@ -109,13 +108,13 @@ const Dashboard = () => {
     setIncome(0);
     setExpenses(0);
     setCurrentBalance(0);
-    setTransactions([]); // Optionally reset transactions
+    setTransactions([]);
     toast.info("Balance Reset Successfully");
   };
 
   async function addTransaction(transaction) {
     try {
-      const docRef = await addDoc(
+      await addDoc(
         collection(db, `users/${user.uid}/transactions`),
         transaction
       );
@@ -153,19 +152,19 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="bg-gray-50 min-h-screen">
       <Header />
       {loading ? (
         <Loader />
       ) : (
-        <div className="container mx-auto py-8 px-4 space-y-8">
+        <div className="container mx-auto py-8 px-4 md:px-6 space-y-8">
           <Cards
             currentBalance={currentBalance}
             income={income}
             expenses={expenses}
             showExpenseModal={() => setIsExpenseModalVisible(true)}
             showIncomeModal={() => setIsIncomeModalVisible(true)}
-            reset={resetBalance} // Pass reset function to Cards
+            reset={resetBalance}
           />
 
           <AddExpenseModal
@@ -182,18 +181,28 @@ const Dashboard = () => {
           {transactions.length === 0 ? (
             <NoTransactions />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white p-6 shadow-lg rounded-lg">
-                <h2 className="text-xl font-semibold mb-4">Financial Statistics</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="bg-white p-6 shadow-lg rounded-xl">
+                <h2 className="text-xl font-semibold mb-4 text-gray-700">
+                  Financial Overview
+                </h2>
                 <Line data={balanceData} xField="month" yField="balance" />
               </div>
 
-              <div className="bg-white p-6 shadow-lg rounded-lg">
-                <h2 className="text-xl font-semibold mb-4">Total Spending</h2>
+              <div className="bg-white p-6 shadow-lg rounded-xl">
+                <h2 className="text-xl font-semibold mb-4 text-gray-700">
+                  Spending Breakdown
+                </h2>
                 {spendingDataArray.length === 0 ? (
-                  <p className="text-gray-500">Seems like you haven't spent anything till now...</p>
+                  <p className="text-gray-500 text-center">
+                    No spending recorded yet.
+                  </p>
                 ) : (
-                  <Pie data={spendingDataArray} angleField="value" colorField="category" />
+                  <Pie
+                    data={spendingDataArray}
+                    angleField="value"
+                    colorField="category"
+                  />
                 )}
               </div>
             </div>

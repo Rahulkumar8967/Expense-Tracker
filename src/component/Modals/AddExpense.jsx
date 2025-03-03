@@ -1,15 +1,17 @@
 import React from "react";
 import { Modal, Form, Input, DatePicker, Select, Button } from "antd";
 
-import PropTypes from 'prop-types';
-
-function AddExpenseModal({ isExpenseModalVisible, handleExpenseCancel, onFinish }) {
+function AddExpenseModal({
+  isExpenseModalVisible,
+  handleExpenseCancel,
+  onFinish,
+}) {
   const [form] = Form.useForm();
 
   return (
     <Modal
       title="Add Expense"
-      open={isExpenseModalVisible} // Updated from `visible` to `open` for Ant Design v5+
+      open={isExpenseModalVisible}
       onCancel={handleExpenseCancel}
       footer={null}
       className="font-semibold"
@@ -18,61 +20,68 @@ function AddExpenseModal({ isExpenseModalVisible, handleExpenseCancel, onFinish 
         form={form}
         layout="vertical"
         onFinish={(values) => {
-          onFinish(values, "expense");
+          onFinish(values);
           form.resetFields();
         }}
         className="space-y-4"
       >
         {/* Name Input */}
         <Form.Item
-          label={<span className="text-gray-700 font-medium">Name</span>}
+          label="Expense Name"
           name="name"
-          rules={[{ required: true, message: "Please input the name of the transaction!" }]}
+          rules={[{ required: true, message: "Please enter expense name" }]}
         >
           <Input
-            type="text"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter expense name"
+            className="border rounded-md px-3 py-2"
           />
         </Form.Item>
 
         {/* Amount Input */}
         <Form.Item
-          label={<span className="text-gray-700 font-medium">Amount</span>}
+          label="Amount"
           name="amount"
-          rules={[{ required: true, message: "Please input the expense amount!" }]}
+          rules={[{ required: true, message: "Please enter amount" }]}
         >
           <Input
             type="number"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter amount"
+            className="border rounded-md px-3 py-2"
           />
         </Form.Item>
 
         {/* Date Picker */}
         <Form.Item
-          label={<span className="text-gray-700 font-medium">Date</span>}
+          label="Date"
           name="date"
-          rules={[{ required: true, message: "Please select the expense date!" }]}
+          rules={[{ required: true, message: "Please select a date" }]}
         >
           <DatePicker
             format="YYYY-MM-DD"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border rounded-md px-3 py-2"
           />
         </Form.Item>
 
-        {/* Tag Selection */}
+        {/* Category Selection */}
         <Form.Item
-          label={<span className="text-gray-700 font-medium">Tag</span>}
-          name="tag"
-          rules={[{ required: true, message: "Please select a tag!" }]}
+          label="Category"
+          name="category"
+          rules={[{ required: true, message: "Please select a category" }]}
         >
-          <Select
-            className="w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Select a tag"
-          >
+          <Select placeholder="Select category" className="border rounded-md">
             <Select.Option value="food">Food</Select.Option>
-            <Select.Option value="education">Education</Select.Option>
-            <Select.Option value="office">Office</Select.Option>
+            <Select.Option value="transport">Transport</Select.Option>
+            <Select.Option value="shopping">Shopping</Select.Option>
+            <Select.Option value="bills">Bills</Select.Option>
           </Select>
+        </Form.Item>
+
+        {/* Notes Input */}
+        <Form.Item label="Notes" name="notes">
+          <Input.TextArea
+            placeholder="Additional notes (optional)"
+            className="border rounded-md px-3 py-2"
+          />
         </Form.Item>
 
         {/* Submit Button */}
@@ -80,7 +89,7 @@ function AddExpenseModal({ isExpenseModalVisible, handleExpenseCancel, onFinish 
           <Button
             type="primary"
             htmlType="submit"
-            className="w-full bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
           >
             Add Expense
           </Button>
@@ -90,12 +99,4 @@ function AddExpenseModal({ isExpenseModalVisible, handleExpenseCancel, onFinish 
   );
 }
 
-AddExpenseModal.propTypes = {
-  isExpenseModalVisible: PropTypes.bool.isRequired,
-  handleExpenseCancel: PropTypes.func.isRequired,
-  onFinish: PropTypes.func.isRequired,
-};
-
 export default AddExpenseModal;
-
-

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Table, Select, Radio } from "antd";
 import { parse } from "papaparse";
@@ -18,12 +17,11 @@ const TransactionSearch = ({
   const [typeFilter, setTypeFilter] = useState("");
   const [sortKey, setSortKey] = useState("");
 
-  // Function to import transactions from CSV file
   const importFromCsv = async (event) => {
     event.preventDefault();
     const file = event.target.files[0];
-    
-    if (file && file.type !== 'text/csv') {
+
+    if (file && file.type !== "text/csv") {
       toast.error("Please upload a valid CSV file.");
       return;
     }
@@ -49,76 +47,47 @@ const TransactionSearch = ({
     }
   };
 
-  // Column definitions for the table
   const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Type",
-      dataIndex: "type",
-      key: "type",
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-    },
-    {
-      title: "Amount",
-      dataIndex: "amount",
-      key: "amount",
-    },
-    {
-      title: "Tag",
-      dataIndex: "tag",
-      key: "tag",
-    },
+    { title: "Name", dataIndex: "name", key: "name" },
+    { title: "Type", dataIndex: "type", key: "type" },
+    { title: "Date", dataIndex: "date", key: "date" },
+    { title: "Amount", dataIndex: "amount", key: "amount" },
+    { title: "Tag", dataIndex: "tag", key: "tag" },
   ];
 
-  // Filter transactions based on search term, tag, and type filter
   const filteredTransactions = transactions.filter((transaction) => {
     const searchMatch = searchTerm
       ? transaction.name.toLowerCase().includes(searchTerm.toLowerCase())
       : true;
     const tagMatch = selectedTag ? transaction.tag === selectedTag : true;
     const typeMatch = typeFilter ? transaction.type === typeFilter : true;
-
     return searchMatch && tagMatch && typeMatch;
   });
 
-  // Sort transactions based on selected sort key (date or amount)
   const sortedTransactions = [...filteredTransactions].sort((a, b) => {
-    if (sortKey === "date") {
-      return new Date(a.date) - new Date(b.date);
-    } else if (sortKey === "amount") {
-      return a.amount - b.amount;
-    } else {
-      return 0;
-    }
+    if (sortKey === "date") return new Date(a.date) - new Date(b.date);
+    if (sortKey === "amount") return a.amount - b.amount;
+    return 0;
   });
 
-  // Prepare the data for the table
   const dataSource = sortedTransactions.map((transaction, index) => ({
     key: index,
     ...transaction,
   }));
 
   return (
-    <div className="w-full px-8">
-      <div className="flex justify-between gap-4 items-center mb-4">
-        <div className="flex items-center gap-2">
+    <div className="w-full px-4 sm:px-8 lg:px-12 py-6 bg-gray-100 rounded-lg shadow-md">
+      <div className="flex flex-col md:flex-row justify-between gap-4 items-center mb-6">
+        <div className="flex items-center gap-2 w-full md:w-auto bg-white p-2 rounded-md shadow-sm">
           <img src={search} alt="Search Icon" width="16" />
           <input
-            className="border p-2 rounded-md w-full"
+            className="border-none outline-none w-full md:w-64"
             placeholder="Search by Name"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
         <Select
-          className="w-[200px]"
+          className="w-full md:w-48 bg-white"
           onChange={(value) => setTypeFilter(value)}
           value={typeFilter}
           placeholder="Filter"
@@ -130,9 +99,11 @@ const TransactionSearch = ({
         </Select>
       </div>
 
-      <div className="my-table">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold">My Transactions</h2>
+      <div className="my-table bg-white p-4 rounded-lg shadow">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+          <h2 className="text-2xl font-semibold text-center md:text-left">
+            My Transactions
+          </h2>
 
           <Radio.Group
             className="space-x-2"
@@ -144,14 +115,17 @@ const TransactionSearch = ({
             <Radio.Button value="amount">Sort by Amount</Radio.Button>
           </Radio.Group>
 
-          <div className="flex gap-4 items-center">
+          <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
             <button
-              className="btn bg-blue-600 text-white p-2 rounded-md"
+              className="btn bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition shadow-md"
               onClick={exportToCsv}
             >
               Export to CSV
             </button>
-            <label htmlFor="file-csv" className="btn bg-blue-600 text-white p-2 rounded-md cursor-pointer">
+            <label
+              htmlFor="file-csv"
+              className="btn bg-blue-600 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-700 transition shadow-md text-center"
+            >
               Import from CSV
             </label>
             <input
@@ -159,13 +133,16 @@ const TransactionSearch = ({
               id="file-csv"
               type="file"
               accept=".csv"
-              required
               className="hidden"
             />
           </div>
         </div>
 
-        <Table columns={columns} dataSource={dataSource} />
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          className="w-full overflow-x-auto"
+        />
       </div>
     </div>
   );
