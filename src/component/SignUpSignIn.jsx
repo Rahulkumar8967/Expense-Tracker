@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, provider, db } from "../firebase";
@@ -6,6 +7,9 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
+// eslint-disable-next-line no-unused-vars
+import { signInWithRedirect } from "firebase/auth";
+
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import Header from "./Header/Header";
 import { toast } from "react-toastify";
@@ -96,12 +100,12 @@ const SignUpSignIn = () => {
   return (
     <>
       <Header />
-      <div className="flex items-center justify-center h-screen w-full bg-gray-100 px-4 overflow-hidden">
-        <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-6 sm:p-8">
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 -mt-10">
+        <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-8 space-y-6">
           <h2
-            className={`text-2xl sm:text-3xl font-bold text-center ${
+            className={`text-4xl font-extrabold text-center ${
               isLogin ? "text-blue-700" : "text-green-600"
-            }`}
+            } relative`}
           >
             {isLogin ? "Welcome Back to Financly" : "Sign Up on Financly"}
             <span className="block h-1 w-24 bg-gradient-to-r from-blue-500 to-green-500 mx-auto mt-2 rounded-full"></span>
@@ -109,7 +113,7 @@ const SignUpSignIn = () => {
 
           <form
             onSubmit={isLogin ? handleSignIn : handleSignUp}
-            className="space-y-4 mt-4"
+            className="space-y-4"
           >
             {!isLogin && (
               <input
@@ -154,13 +158,13 @@ const SignUpSignIn = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none transition duration-300"
+              className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none transition duration-300 cursor-pointer"
             >
               {loading ? "Loading..." : isLogin ? "Log In" : "Sign Up"}
             </button>
           </form>
 
-          <div className="relative flex items-center justify-center my-4">
+          <div className="relative flex items-center justify-center">
             <span className="absolute bg-white px-4 text-gray-500">or</span>
             <hr className="w-full border-gray-300" />
           </div>
@@ -168,14 +172,14 @@ const SignUpSignIn = () => {
           <button
             disabled={loading}
             onClick={handleGoogleSignIn}
-            className="w-full py-3 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none transition duration-300"
+            className="w-full py-3 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none transition duration-300 cursor-pointer"
           >
             {loading ? "Loading..." : "Continue with Google"}
           </button>
 
           <p
             onClick={() => setIsLogin(!isLogin)}
-            className="text-center text-blue-600 cursor-pointer hover:underline transition duration-300 mt-4"
+            className="text-center text-blue-600 cursor-pointer hover:underline -mt-2.5 transition duration-300"
           >
             {isLogin
               ? "Don't have an account? Sign Up"
