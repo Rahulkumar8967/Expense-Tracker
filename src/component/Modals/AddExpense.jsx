@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Form, Input, DatePicker, Select, Button } from "antd";
+import { Modal, Form, Input, DatePicker, Button } from "antd";
 
 function AddExpenseModal({
   isExpenseModalVisible,
@@ -20,67 +20,74 @@ function AddExpenseModal({
         form={form}
         layout="vertical"
         onFinish={(values) => {
-          onFinish(values);
+          onFinish(values, "expense");
           form.resetFields();
         }}
         className="space-y-4"
       >
-        {/* Name Input */}
+        {/* Expense Name Input */}
         <Form.Item
-          label="Expense Name"
+          label={
+            <span className="text-gray-700 font-medium">Expense Name</span>
+          }
           name="name"
-          rules={[{ required: true, message: "Please enter expense name" }]}
+          rules={[
+            { required: true, message: "Please input the expense name!" },
+          ]}
         >
           <Input
-            placeholder="Enter expense name"
-            className="border rounded-md px-3 py-2"
+            type="text"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </Form.Item>
 
-        {/* Amount Input */}
+        {/* Type Selection */}
         <Form.Item
-          label="Amount"
-          name="amount"
-          rules={[{ required: true, message: "Please enter amount" }]}
+          label={<span className="text-gray-700 font-medium">Type</span>}
+          name="type"
+          rules={[{ required: true, message: "Please input the type!" }]}
         >
           <Input
-            type="number"
-            placeholder="Enter amount"
-            className="border rounded-md px-3 py-2"
+            type="text"
+            placeholder="what Type of expense"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </Form.Item>
 
         {/* Date Picker */}
         <Form.Item
-          label="Date"
+          label={<span className="text-gray-700 font-medium">Date</span>}
           name="date"
-          rules={[{ required: true, message: "Please select a date" }]}
+          rules={[{ required: true, message: "Please select the date!" }]}
         >
           <DatePicker
             format="YYYY-MM-DD"
-            className="w-full border rounded-md px-3 py-2"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </Form.Item>
 
-        {/* Category Selection */}
+        {/* Amount Input */}
         <Form.Item
-          label="Category"
-          name="category"
-          rules={[{ required: true, message: "Please select a category" }]}
+          label={<span className="text-gray-700 font-medium">Amount</span>}
+          name="amount"
+          rules={[{ required: true, message: "Please input the amount!" }]}
         >
-          <Select placeholder="Select category" className="border rounded-md">
-            <Select.Option value="food">Food</Select.Option>
-            <Select.Option value="transport">Transport</Select.Option>
-            <Select.Option value="shopping">Shopping</Select.Option>
-            <Select.Option value="bills">Bills</Select.Option>
-          </Select>
+          <Input
+            type="number"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </Form.Item>
 
-        {/* Notes Input */}
-        <Form.Item label="Notes" name="notes">
-          <Input.TextArea
-            placeholder="Additional notes (optional)"
-            className="border rounded-md px-3 py-2"
+        {/* Tag Input Field (Text Input) */}
+        <Form.Item
+          label={<span className="text-gray-700 font-medium">Tag</span>}
+          name="tag"
+          rules={[{ required: true, message: "Please input a tag!" }]}
+        >
+          <Input
+            type="text"
+            placeholder="Enter a tag (e.g., Food, Rent, Shopping)"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </Form.Item>
 
@@ -89,7 +96,7 @@ function AddExpenseModal({
           <Button
             type="primary"
             htmlType="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
+            className="w-full bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 transition duration-300"
           >
             Add Expense
           </Button>
